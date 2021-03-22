@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nagarro.vaccnow.dto.ScheduleTimeslotDto;
+import com.nagarro.vaccnow.exception.SlotNotAvailableException;
+import com.nagarro.vaccnow.exception.UserNotFoundException;
 import com.nagarro.vaccnow.service.BranchVaccinationService;
 import com.nagarro.vaccnow.utility.GlobalConstants;
 
@@ -22,21 +24,22 @@ public class VaccinationController {
 	private BranchVaccinationService branchVaccinationService;
 
 	@PostMapping(value = "/schedule-vaccination-timeslot")
-	public ResponseEntity<String> SaveScheduleVaccinationTimeslot(@RequestBody ScheduleTimeslotDto scheduleTimeslotDTO) {
-		if(branchVaccinationService.slotAvailable(scheduleTimeslotDTO)) {  			
+	public ResponseEntity<String> SaveScheduleVaccinationTimeslot(
+			@RequestBody ScheduleTimeslotDto scheduleTimeslotDTO) {
+		if (branchVaccinationService.slotAvailable(scheduleTimeslotDTO)) {
 			return ResponseEntity.ok(branchVaccinationService.scheduleVaccinationTimeslot(scheduleTimeslotDTO));
-		}else {
-			return ResponseEntity.status(HttpStatus.IM_USED).body("Sloat Already Booked. Please try another sloat.");
+		} else {
+			throw new SlotNotAvailableException();
 		}
 	}
-	
+
 	@PutMapping(value = "/confirm-vaccination/{email}")
-	public ResponseEntity<String> getConfirmVaccinationTimeslot(
-			@PathVariable String email) {
-		if(GlobalConstants.UPDATED.equals(branchVaccinationService.confirmVaccination(email))) {
+	public ResponseEntity<String> getConfirmVaccinationTimeslot(@PathVariable String email) {
+		if (GlobalConstants.UPDATED.equals(branchVaccinationService.confirmVaccination(email))) {
 			return ResponseEntity.ok(GlobalConstants.UPDATED);
-		}else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		} else {
+
+			throw new UserNotFoundException();
 		}
 	}
 }

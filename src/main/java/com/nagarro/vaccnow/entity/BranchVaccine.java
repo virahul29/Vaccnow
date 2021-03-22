@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.Data;
+
+@Data
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "branch_vaccine")
@@ -29,49 +32,5 @@ public class BranchVaccine implements Serializable {
 
 	@Column(name = "vaccine_count")
 	private Integer vaccineCount;
-	
-	public BranchVaccine() {
-		super();
-	}
-
-	public BranchVaccine(Integer id, Branch branch, Vaccine vaccine, Integer vaccineCount) {
-		super();
-		this.id = id;
-		this.branch = branch;
-		this.vaccine = vaccine;
-		this.vaccineCount = vaccineCount;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Branch getBranch() {
-		return branch;
-	}
-
-	public void setBranch(Branch branch) {
-		this.branch = branch;
-	}
-
-	public Vaccine getVaccine() {
-		return vaccine;
-	}
-
-	public void setVaccine(Vaccine vaccine) {
-		this.vaccine = vaccine;
-	}
-
-	public Integer getVaccineCount() {
-		return vaccineCount;
-	}
-
-	public void setVaccineCount(Integer vaccineCount) {
-		this.vaccineCount = vaccineCount;
-	}
 
 }

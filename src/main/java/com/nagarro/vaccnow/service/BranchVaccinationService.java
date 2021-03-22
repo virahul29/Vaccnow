@@ -51,7 +51,7 @@ public class BranchVaccinationService {
 		return false;
 	}
 
-	public String scheduleVaccinationTimeslot(ScheduleTimeslotDto scheduleTimeslotDTO) {
+	public String scheduleVaccinationTimeslot(ScheduleTimeslotDto scheduleTimeslotDTO){
 
 		String response = null;
 
@@ -83,6 +83,7 @@ public class BranchVaccinationService {
 		ScheduleTimeslot scheduleTimeslot = scheduleTimeslotRepository.findByEmail(email);
 		if (scheduleTimeslot != null) {
 			scheduleTimeslot.setVaccinactionDone((short) 1);
+			scheduleTimeslot.setTransactionStatus(TransactionStatus.SUCCESS);
 			scheduleTimeslotRepository.save(scheduleTimeslot);
 			return GlobalConstants.UPDATED;
 		} else {
